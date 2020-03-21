@@ -1,0 +1,55 @@
+pipeline:
+  build:
+    image: plugins/docker
+    secrets: [docker_username, docker_password]
+    registry: dev.enecuum.com:2087
+    repo: dev.enecuum.com:2087/testnet/node
+    tags: latest
+    when:
+      branch:
+        - master
+      event:
+        - push
+        - tag
+  notify-build:
+    image: dev.enecuum.com:2087/library/drone-telegram:v1.0.0
+    secrets: [telegram_token, telegram_id]
+    when:
+      branch:
+        - master
+      status:
+        - success
+        - failure
+      event:
+        - push
+        - tag
+  deploy:
+    image: dev.enecuum.com:2087/testnet/testnet-master:latest
+    when:
+      branch:
+        - master
+      status:
+        - success
+      event:
+        - push
+        - tag
+  notify-deploy:
+    image: dev.enecuum.com:2087/library/drone-telegram:v1.0.0
+    secrets: [telegram_token, telegram_id]
+    message: \u2705 ${DRONE_REPO}:`${DRONE_COMMIT_BRANCH}` ${DRONE_BUILD_NUMBER} deployment successful
+    when:
+      branch:
+        - master
+      status:
+        - success
+      event:
+        - push
+        - tag
+  notify-pr:
+    image: dev.enecuum.com:2087/library/drone-telegram:v1.0.0
+    secrets: [telegram_token, telegram_id]
+    message: \u2757 PR ${DRONE_REPO_LINK}/pull/${DRONE_PULL_REQUEST}
+    when:
+      branch: 
+        - master
+      event: pull_request

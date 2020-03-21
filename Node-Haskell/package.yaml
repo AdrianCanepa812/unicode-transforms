@@ -1,0 +1,136 @@
+name:                Node
+version:             0.7.0.0
+github:              "Enecuum/Node"
+license:             BSD3
+author:              "Enecuum"
+maintainer:          "mail@enecuum.com"
+copyright:           "2018 Enecuum"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+description:
+  Node is the project that allows to build network actors and blockchain protocols.
+  It contains Enecuum.Framework and sample nodes performing some blockchain-like activity.
+  Please see the README.md at <https://github.com/Enecuum/Node/blob/master/README.md>.
+
+default-extensions:
+- NoImplicitPrelude
+- GADTs
+- RankNTypes
+- DeriveFunctor
+- DeriveGeneric
+- OverloadedStrings
+- LambdaCase
+- MultiParamTypeClasses
+- ExplicitNamespaces
+- TypeApplications
+- ScopedTypeVariables
+- TypeOperators
+- TypeFamilies
+- DataKinds
+- FlexibleContexts
+- FlexibleInstances
+- PatternSynonyms
+- PolyKinds
+- DefaultSignatures
+- ConstraintKinds
+- NamedFieldPuns
+- TupleSections
+- ViewPatterns
+- MultiWayIf
+
+dependencies:
+- base >= 4.7 && < 5
+- bytestring
+- time-units
+- network
+- aeson
+- aeson-pretty
+- cereal
+- mtl
+- cryptonite
+- base16-bytestring
+- base58-bytestring
+- base64-bytestring
+- arithmoi
+- directory
+- filepath
+- process
+- extra
+- time
+- clock
+- vector
+- scientific
+- containers
+- random
+- free
+- iproute
+- memory
+- transformers
+- template-haskell
+- async
+- text
+- rocksdb-haskell
+- haskeline
+- cryptohash-sha256
+- bytestring-conversion
+- newtype-generics
+- lens
+- universum
+- fmt
+- stm
+- hslogger
+- lens-aeson
+- th-abstraction
+- MonadRandom
+- entropy
+- validation
+- silently
+- uuid
+- resourcet
+- triplesec
+- yaml
+- hspec
+- HUnit
+- QuickCheck
+- hspec-contrib
+- newtype-generics
+- regex-posix
+- safe-exceptions
+
+library:
+  source-dirs:
+    - src
+    - test/test-framework
+  ghc-options:
+  - -Wall
+
+
+executables:
+  enq-test-node-haskell:
+    main:                Main.hs
+    source-dirs:         app/Enecuum
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    - -O2
+    dependencies:
+    - Node
+
+
+tests:
+  functional-tests:
+    main: Spec.hs
+
+    dependencies:
+    - Node
+    source-dirs:
+    - test/spec
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
